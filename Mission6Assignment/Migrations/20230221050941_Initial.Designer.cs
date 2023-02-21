@@ -8,7 +8,7 @@ using Mission6Assignment.Models;
 namespace Mission6Assignment.Migrations
 {
     [DbContext(typeof(MovieSubmissionContext))]
-    [Migration("20230213220014_Initial")]
+    [Migration("20230221050941_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -17,15 +17,60 @@ namespace Mission6Assignment.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.32");
 
+            modelBuilder.Entity("Mission6Assignment.Models.Category", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CategoryName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CategoryId");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            CategoryName = "Action/Adventure"
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            CategoryName = "Comedy"
+                        },
+                        new
+                        {
+                            CategoryId = 3,
+                            CategoryName = "Drama"
+                        },
+                        new
+                        {
+                            CategoryId = 4,
+                            CategoryName = "Family"
+                        },
+                        new
+                        {
+                            CategoryId = 5,
+                            CategoryName = "Horror/Suspense"
+                        },
+                        new
+                        {
+                            CategoryId = 6,
+                            CategoryName = "Miscellaneous"
+                        });
+                });
+
             modelBuilder.Entity("Mission6Assignment.Models.SubmissionResponse", b =>
                 {
                     b.Property<int>("SubmissionId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("DirectorFirstName")
                         .IsRequired()
@@ -57,13 +102,15 @@ namespace Mission6Assignment.Migrations
 
                     b.HasKey("SubmissionId");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("Responses");
 
                     b.HasData(
                         new
                         {
                             SubmissionId = 1,
-                            Category = "Action/Adventure",
+                            CategoryId = 1,
                             DirectorFirstName = "Christopher",
                             DirectorLastName = "Nolan",
                             Edited = false,
@@ -76,7 +123,7 @@ namespace Mission6Assignment.Migrations
                         new
                         {
                             SubmissionId = 2,
-                            Category = "Romantic Comedy",
+                            CategoryId = 2,
                             DirectorFirstName = "Anne",
                             DirectorLastName = "Fletcher",
                             Edited = false,
@@ -89,7 +136,7 @@ namespace Mission6Assignment.Migrations
                         new
                         {
                             SubmissionId = 3,
-                            Category = "Action/Adventure",
+                            CategoryId = 1,
                             DirectorFirstName = "Christopher",
                             DirectorLastName = "Nolan",
                             Edited = false,
@@ -99,6 +146,15 @@ namespace Mission6Assignment.Migrations
                             Title = "Inception",
                             Year = 2010
                         });
+                });
+
+            modelBuilder.Entity("Mission6Assignment.Models.SubmissionResponse", b =>
+                {
+                    b.HasOne("Mission6Assignment.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

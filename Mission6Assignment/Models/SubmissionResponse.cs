@@ -11,19 +11,23 @@ namespace Mission6Assignment.Models
         [Key]
         [Required]
         public int SubmissionId { get; set; }
+        
+        //Foreign Key Relationship
         [Required]
-        public string Category { get; set; }
+        public int CategoryId { get; set; }
+        public Category Category { get; set; }
+
         [Required]
         public string Title { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Movie Title Required")]
         public int Year { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Movie Year Required")]
         public string DirectorFirstName {get;set;}
-        [Required]
+        [Required(ErrorMessage ="Director First Name Required")]
         public string DirectorLastName { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Director Last Name Required")]
         public string Rating { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Movie Rating Required")]
         public bool Edited { get; set; }
         public string LentTo { get; set; }
         public string Notes { get; set; }
